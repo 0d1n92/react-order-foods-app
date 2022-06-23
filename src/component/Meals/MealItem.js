@@ -11,10 +11,19 @@ import classes from './MealItem.module.css';
 const MealItem = () => {
 
   const addItems = (e, idItems) => {
-
-   const item = DUMMY_MEALS.find(({id})=> id === idItems);
-   const cartItems= JSON.parse(localStorage.getItem('cartItems'));
-   cartItems.push(item);
+    const cartItems= JSON.parse(localStorage.getItem('cartItems')); 
+    if (!cartItems.some(e => e.id === idItems)) {
+       let item = DUMMY_MEALS.find(({id})=> id === idItems);
+       item = {...item, count: 1}
+       cartItems.push(item);
+    } else {
+        cartItems.find((element)=>{
+          element.count+=1;
+          return element.id === idItems
+      });
+       
+    }
+  
    localStorage.setItem('cartItems',JSON.stringify(cartItems) );
 } 
   

@@ -7,16 +7,17 @@ const Cart =  () => {
   const ctx = useContext(CartContext);
   const render = ctx.items.map(item => {
         return (
-          <div className={classes["card-items"]} key={item.id}>
-            <p>{item.name}</p>
-          </div>
+          
+            <div>{item.name}</div>
+          
         )
     } );
 
-
   return (
-  <Card>
+  <Card customClass="card-white">
+    <div className={classes["cart-items"]}>
     {render}
+    </div>
   </Card>
   );
 }
