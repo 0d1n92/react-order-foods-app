@@ -1,9 +1,29 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import DUMMY_MEALS from './dummy-meals';
 import classes from './MealItem.module.css';
 
+/* const addItems = (idItems) => {
+   const item = DUMMY_MEALS.find(({id})=> id === idItems);
+   const cartItems= JSON.parse(localStorage.getItems('cartItems'));
+   cartItems.push(item);
+} */
+
 const MealItem = () => {
 
+  const addItems = (e, idItems) => {
+      console.log("item");
+   const item = DUMMY_MEALS.find(({id})=> id === idItems);
+   const cartItems= JSON.parse(localStorage.getItem('cartItems'));
+   cartItems.push(item);
+   console.log(cartItems);
+   localStorage.setItem('cartItems',JSON.stringify(cartItems) );
+} 
+   useEffect(
+    ()=> {
+         const items = [];
+        localStorage.setItem('cartItems', JSON.stringify(items));
+    },[]
+  ); 
   const item = DUMMY_MEALS.map((item)=>{
     return (
       <div className={classes["meal"]} key={item.id}>
@@ -16,7 +36,7 @@ const MealItem = () => {
           <b>Amount</b>
           <input type="number"></input>
           <br />
-          <button>
+          <button onClick={e => addItems(e,item.id)}>
             + Add
           </button>
         </div>
