@@ -1,57 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import DUMMY_MEALS from './dummy-meals';
 import classes from './MealItem.module.css';
-
-/* const addItems = (idItems) => {
-   const item = DUMMY_MEALS.find(({id})=> id === idItems);
-   const cartItems= JSON.parse(localStorage.getItems('cartItems'));
-   cartItems.push(item);
-} */
+import CartContext from '../../store/cart-context';
 
 const MealItem = () => {
-
-  const addItems = (e, idItems) => {
-    const cartItems= JSON.parse(localStorage.getItem('cartItems')); 
-    if (!cartItems.some(e => e.id === idItems)) {
-       let item = DUMMY_MEALS.find(({id})=> id === idItems);
-       item = {...item, count: 1}
-       cartItems.push(item);
-    } else {
-        cartItems.find((element)=>{
-          element.count+=1;
-          return element.id === idItems
-      });
-       
-    }
+  const ctx = useContext(CartContext);
   
-   localStorage.setItem('cartItems',JSON.stringify(cartItems) );
-} 
-  
-  const item = DUMMY_MEALS.map((item)=>{
+  const item = DUMMY_MEALS.map((item) => {
     return (
-      <div className={classes["meal"]} key={item.id}>
+      <div className={classes['meal']} key={item.id}>
         <div>
           <h3>{item.name}</h3>
-          <p className={classes["description"]}>{item.description}</p>
-          <p className={classes["price"]}>{item.price}</p>
+          <p className={classes['description']}>{item.description}</p>
+          <p className={classes['price']}>{item.price}</p>
         </div>
         <div>
           <b>Amount</b>
           <input type="number"></input>
           <br />
-          <button onClick={e => addItems(e,item.id)}>
-            + Add
-          </button>
+          <button onClick={(e) => ctx.addItems(e, item.id)}>+ Add</button>
         </div>
       </div>
     );
   });
 
-   return (
-    <React.Fragment>
-      {item}
-    </React.Fragment>
-   );
-}
+  return <React.Fragment>{item}</React.Fragment>;
+};
 
 export default MealItem;
