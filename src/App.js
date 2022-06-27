@@ -15,7 +15,7 @@ function App() {
     <React.Fragment>
       <Header />
          <MealsSummary />
-         {!ctxCart.isOpen ? <Cart></Cart> : ''}
+         {ctxCart.isOpen === true ? <Cart></Cart> : ''}
       
       <Card customClass={'card-white'}>
         <MealItem />
