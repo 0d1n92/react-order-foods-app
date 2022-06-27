@@ -13,12 +13,12 @@ const Cart = () => {
       ))}
     </ul>
   );
-
-  
+console.log(ctx.cartTotal);
   return (
     <Modal>
       <div className={classes['cart-items']}>
         {cartItems}
+        <div className={classes.total}> <p>Total Amount</p><p>{ctx.cartTotal}</p></div>
         <div className={classes['actions']}>
           <button onClick={ctx.setIsOpen} className={classes['button--alt']}>
             Close

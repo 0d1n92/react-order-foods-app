@@ -13,10 +13,17 @@ const HeaderCardButton = () => {
 
   };
   return(
-    <button className={classes['button']} onClick={onClickHandler} >
-    {"Cart"}
-     <CardIcon customClass={classes["icon"]} />
-    </button>
+    <React.Fragment>
+    <div style={{position: "relative" }}>
+      <div className={classes.badge}>
+        {ctx.items.length}
+      </div>
+    </div>
+      <button className={classes['button']} onClick={onClickHandler} >
+      {"Cart"}
+      <CardIcon customClass={classes["icon"]} />
+      </button>
+    </React.Fragment>
   ) 
 }
 
