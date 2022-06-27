@@ -4,7 +4,8 @@ import DUMMY_MEALS from '../component/Meals/dummy-meals';
 const CartContext = React.createContext({
   isOpen: false,
   items: [],
-  addItems: (e, id) => {},
+  addItems: (e, id, amount) => {},
+  removeItems: (e, id, amount) => {},
   setIsOpen: () => {},
 });
 
@@ -14,7 +15,6 @@ export const CartContextProvider = (props) => {
 
   const onOpenCart = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   };
 
   useEffect(() => {
@@ -23,16 +23,24 @@ export const CartContextProvider = (props) => {
     setItems(storedCardItems);
   }, []);
 
-  const addItems = (e, idItems) => {
+  const removeItems = (e, idItems) => {
+     const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+     cartItems.forEach((element) => {
+       if (element.id === idItems && element.count > 0) element.count -= 1;
+     });
+      setItems(cartItems);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }
+
+  const addItems = (e, idItems, amount) => {
     const cartItems = JSON.parse(localStorage.getItem('cartItems'));
     if (!cartItems.some((e) => e.id === idItems)) {
       let item = DUMMY_MEALS.find(({ id }) => id === idItems);
-      item = { ...item, count: 1 };
+      item = { ...item, count: amount };
       cartItems.push(item);
     } else {
-      cartItems.find((element) => {
-        element.count += 1;
-        return element.id === idItems;
+      cartItems.forEach((element) => {
+        if (element.id === idItems) element.count += amount;
       });
     }
     setItems(cartItems);
@@ -46,6 +54,7 @@ export const CartContextProvider = (props) => {
         isOpen: isOpen,
         addItems: addItems,
         setIsOpen: onOpenCart,
+        removeItems: removeItems
       }}
     >
       {props.children}
